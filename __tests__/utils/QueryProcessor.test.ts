@@ -72,4 +72,9 @@ describe("QueryProcessor", () => {
         expect(QueryProcessor("What is the scrabble score of banana?")).toBe("8");
         expect(QueryProcessor("What is the scrabble score of buzzword?")).toBe("32");
     });
+
+    test('should find the anagram', () => {
+        const query = "Which of the following is an anagram of dictionary: indicatory, abdication, butterfly, incendiary?";
+        expect(QueryProcessor(query)).toBe("indicatory");
+    });
 });

@@ -8,6 +8,10 @@ const SCRABBLE_POINTS: { [letter: string]: number } = {
   q: 10, z: 10,
 };
 
+function sortLetters(word: string): string {
+  return word.toLowerCase().split("").sort().join("");
+}
+
 function scrabbleScore(word: string): number {
   return word
     .toLowerCase()
@@ -48,6 +52,16 @@ export default function QueryProcessor(query: string): string {
       .split(",")
       .map((n) => Number(n.trim()))
       .filter(isPrime)
+      .join(", ");
+  }
+
+  const anagram = query.match(/which of the following is an anagram of\s+([a-z]+):\s*(.*?)\??$/i);
+  if (anagram) {
+    const target = sortLetters(anagram[1]);
+    return anagram[2]
+      .split(",")
+      .map((w) => w.trim())
+      .filter((w) => w.toLowerCase() !== anagram[1].toLowerCase() && sortLetters(w) === target)
       .join(", ");
   }
 
