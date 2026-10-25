@@ -18,11 +18,45 @@ export default function QueryProcessor(query: string): string {
     return matches.join(", ");
   }
 
-  const sum = query.match(/what is\s+(-?\d+(?:\s*plus\s*-?\d+)+)/i);
-  if (sum) {
-    return String(
-      sum[1].split(/plus/i).reduce((total, n) => total + Number(n.trim()), 0)
-    );
+  const primes = query.match(/which of the following numbers are primes:\s*(.*?)\??$/i);
+  if (primes) {
+    const isPrime = (n: number) => {
+      if (!Number.isInteger(n) || n < 2) return false;
+      for (let d = 2; d * d <= n; d++) {
+        if (n % d === 0) return false;
+      }
+      return true;
+    };
+    return primes[1]
+      .split(",")
+      .map((n) => Number(n.trim()))
+      .filter(isPrime)
+      .join(", ");
+  }
+
+  const arithmetic = query.match(
+    /what is\s+(-?\d+(?:\s*(?:plus|minus|multiplied by|times|divided by)\s*-?\d+)+)\s*\??$/i
+  );
+  if (arithmetic) {
+    const tokens = arithmetic[1]
+      .split(/\s*(plus|minus|multiplied by|times|divided by)\s*/i)
+      .map((t) => t.toLowerCase());
+    // multiplication and division bind tighter than addition and subtraction
+    const terms: number[] = [Number(tokens[0])];
+    const signs: number[] = [1];
+    for (let i = 1; i < tokens.length; i += 2) {
+      const op = tokens[i];
+      const n = Number(tokens[i + 1]);
+      if (op === "plus" || op === "minus") {
+        terms.push(n);
+        signs.push(op === "plus" ? 1 : -1);
+      } else if (op === "divided by") {
+        terms[terms.length - 1] /= n;
+      } else {
+        terms[terms.length - 1] *= n;
+      }
+    }
+    return String(terms.reduce((total, t, i) => total + signs[i] * t, 0));
   }
 
   if (query.toLowerCase().includes("shakespeare")) {

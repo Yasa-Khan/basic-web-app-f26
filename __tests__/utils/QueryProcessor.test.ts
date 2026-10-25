@@ -50,4 +50,16 @@ describe("QueryProcessor", () => {
         const query = "Which of the following numbers is both a square and a cube: 4215, 441, 1166, 4096, 650, 3579, 2197?";
         expect(QueryProcessor(query)).toBe("4096");
     });
+
+    test('should handle subtraction, multiplication and division', () => {
+        expect(QueryProcessor("What is 58 minus 98?")).toBe("-40");
+        expect(QueryProcessor("What is 3 multiplied by 4?")).toBe("12");
+        expect(QueryProcessor("What is 2 plus 3 multiplied by 4?")).toBe("14");
+        expect(QueryProcessor("What is 9 divided by 3?")).toBe("3");
+    });
+
+    test('should find primes', () => {
+        const query = "Which of the following numbers are primes: 76, 29, 46, 2, 43?";
+        expect(QueryProcessor(query)).toBe("29, 2, 43");
+    });
 });
