@@ -31,4 +31,14 @@ describe("QueryProcessor", () => {
         const response: string = QueryProcessor(query);
         expect(response).toBe("muhamma4");
     });
+
+    test('should return the largest number', () => {
+        const query = "Which of the following numbers is the largest: 46, 26, 89?";
+        expect(QueryProcessor(query)).toBe("89");
+    });
+
+    test('should add two numbers', () => {
+        expect(QueryProcessor("What is 5 plus 33?")).toBe("38");
+        expect(QueryProcessor("What is 57 plus 45?")).toBe("102");
+    });
 });
