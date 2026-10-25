@@ -67,4 +67,9 @@ describe("QueryProcessor", () => {
         expect(QueryProcessor("What is 2 to the power of 10?")).toBe("1024");
         expect(QueryProcessor("What is 41 to the power of 64?")).toBe("16525965054224229836186278655106620199924768865813137314166732326916347228274400480084130733500669084161");
     });
+
+    test('should compute scrabble scores', () => {
+        expect(QueryProcessor("What is the scrabble score of banana?")).toBe("8");
+        expect(QueryProcessor("What is the scrabble score of buzzword?")).toBe("32");
+    });
 });
