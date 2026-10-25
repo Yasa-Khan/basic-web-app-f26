@@ -41,4 +41,13 @@ describe("QueryProcessor", () => {
         expect(QueryProcessor("What is 5 plus 33?")).toBe("38");
         expect(QueryProcessor("What is 57 plus 45?")).toBe("102");
     });
+
+    test('should add several numbers', () => {
+        expect(QueryProcessor("What is 39 plus 89 plus 34?")).toBe("162");
+    });
+
+    test('should find numbers that are both a square and a cube', () => {
+        const query = "Which of the following numbers is both a square and a cube: 4215, 441, 1166, 4096, 650, 3579, 2197?";
+        expect(QueryProcessor(query)).toBe("4096");
+    });
 });
