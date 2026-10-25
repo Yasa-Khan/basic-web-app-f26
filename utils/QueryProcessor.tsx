@@ -34,6 +34,17 @@ export default function QueryProcessor(query: string): string {
       .join(", ");
   }
 
+  const power = query.match(/what is\s+(-?\d+)\s+to the power of\s+(\d+)\s*\??$/i);
+  if (power) {
+    // BigInt keeps large results exact instead of rounding to a float
+    const base = BigInt(power[1]);
+    let result = BigInt(1);
+    for (let i = 0; i < Number(power[2]); i++) {
+      result = result * base;
+    }
+    return result.toString();
+  }
+
   const arithmetic = query.match(
     /what is\s+(-?\d+(?:\s*(?:plus|minus|multiplied by|times|divided by)\s*-?\d+)+)\s*\??$/i
   );

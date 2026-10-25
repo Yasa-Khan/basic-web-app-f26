@@ -62,4 +62,9 @@ describe("QueryProcessor", () => {
         const query = "Which of the following numbers are primes: 76, 29, 46, 2, 43?";
         expect(QueryProcessor(query)).toBe("29, 2, 43");
     });
+
+    test('should compute powers exactly', () => {
+        expect(QueryProcessor("What is 2 to the power of 10?")).toBe("1024");
+        expect(QueryProcessor("What is 41 to the power of 64?")).toBe("16525965054224229836186278655106620199924768865813137314166732326916347228274400480084130733500669084161");
+    });
 });
